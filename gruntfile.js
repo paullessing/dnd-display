@@ -46,7 +46,7 @@ module.exports = function(grunt) {
     run: {
       tswait: {
         cmd: 'tsc',
-        //args: ['--listFiles']
+        // args: ['--listFiles']
       },
       ts: {
         options: {
@@ -96,5 +96,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('serve', ['clean', 'copy', 'ts:app', 'connect:dev', 'ts:build-and-watch', 'watch']);
+  grunt.registerTask('serve', ['clean', 'copy', 'run:tswait', 'connect:dev', 'run:ts', 'watch']);
 };
