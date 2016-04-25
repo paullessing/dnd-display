@@ -2,6 +2,7 @@ import {Component} from "angular2/core";
 import {RouteConfig, ROUTER_DIRECTIVES} from "angular2/router";
 import {SocketService} from "./services/socket.service";
 import {DisplayInitiativeComponent} from "./components/display-initiative/display-initiative.component";
+import {InitiativeService} from "./services/initiative.service";
 
 /**
  * Main app component for the character sheet app.
@@ -13,7 +14,8 @@ import {DisplayInitiativeComponent} from "./components/display-initiative/displa
     ROUTER_DIRECTIVES,
   ],
   providers: [
-    SocketService
+    SocketService,
+    InitiativeService
   ]
 })
 @RouteConfig([
