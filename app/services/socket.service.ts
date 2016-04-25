@@ -21,16 +21,15 @@ export class SocketService {
 
     //
   }
-  //
-  // public get channels() {
-  //   return {
-  //     get: (name: string) => {
-  //       if (this.subscriptions[name]) {
-  //
-  //       }
-  //     }
-  //   }
-  // }
+
+  public get channels() {
+    return {
+      get: (name: string) => {
+        if (this.subscriptions[name]) {
+        }
+      }
+    }
+  }
 
   public addListener<T>(channelName: string, handler: (value: T) => void): () => void {
     let currentSubscriptions = this.subscriptions[channelName] || (this.subscriptions[channelName] = []);
