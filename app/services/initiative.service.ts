@@ -11,6 +11,7 @@ export const CHANNEL_NAME_INITIATIVE = 'test-initiative';
 @Injectable()
 export class InitiativeService {
   public initiative: Subject<InitiativeOrder> = new ReplaySubject(1);
+  public actions: Subject<string> = new Subject();
 
   private currentInitiative: InitiativeOrder;
 
@@ -36,18 +37,32 @@ export class InitiativeService {
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, 'next', newInitiative);
   }
 
+  public startTimer() {
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, 'timer-start', this.currentInitiative);
+  }
+
   private updateInitiative(action: Action<InitiativeOrder>): void {
     if (!this.currentInitiative) {
-      this.currentInitiative = action.data;
-      this.initiative.next(this.currentInitiative);
-    } else if (this.currentInitiative.id !== action.data.id && action.name === 'create') {
-      this.currentInitiative = action.data;
-      this.initiative.next(this.currentInitiative);
-    } else if (this.currentInitiative.id === action.data.id && action.name !== 'create') {
-      this.currentInitiative = action.data;
-      this.initiative.next(this.currentInitiative);
+      this.update(action.data);
+    } else {
+      switch (action.name) {
+        case 'next':
+              this.update(action.data);
+              this.actions.next('next');
+              break;
+        case 'timer-start':
+              this.actions.next('timer-start');
+              break;
+        default:
+              console.warn('Unexpected event:', action.name);
+              // Do nothing
+      }
     }
-    console.log('Current initiative', this.currentInitiative);
+  }
+
+  private update(initiative: InitiativeOrder) {
+    this.currentInitiative = initiative;
+    this.initiative.next(this.currentInitiative);
   }
 
   private getFromChannel(channelName: string): Promise<Action<any>> {
