@@ -1,4 +1,5 @@
 <div *ngIf="currentPlayer" class="wrapper">
-  <h1 class="initiative">{{ currentPlayer.name }}</h1>
+  <p class="currentPlayer">{{ currentPlayer.name }}</p>
   <timer class="large" [isStarted]="timerIsStarted" [seconds]="120"></timer>
+  <p class="nextPlayer">{{ nextPlayer.name }}</p>
 </div>

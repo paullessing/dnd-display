@@ -19,17 +19,25 @@ display-initiative {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.initiative {
   color: #363636;
-  font-size: 26vh;
   font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: 100;
+}
+.currentPlayer {
+  font-size: 26vh;
+  text-align: center;
+}
+timer {
+  margin-bottom: 4vh;
+}
+.nextPlayer {
+  font-size: 12vh;
 }
 `]
 })
 export class DisplayInitiativeComponent implements OnInit {
   public currentPlayer = null;
+  public nextPlayer = null;
   public timerIsStarted = false;
 
   constructor(
@@ -39,11 +47,34 @@ export class DisplayInitiativeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initiativeService.initiative.subscribe((order: InitiativeOrder) => {
-      this.currentPlayer = order.players[this.findIndex(order.players, order.currentId)];
+      this.updatePlayers(order);
     });
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
     })
+  }
+
+  private updatePlayers(initiative: InitiativeOrder) {
+    let currentIndex = this.findIndex(initiative.players, initiative.currentId);
+    this.currentPlayer = initiative.players[currentIndex];
+    let index = currentIndex;
+    let isNext = false;
+    do {
+      index = (index + 1) % initiative.players.length;
+      let nextPlayer = initiative.players[index];
+      if (index === currentIndex) {
+        isNext = true;
+      } else {
+        if (nextPlayer.isActive) {
+          if (nextPlayer.isNpc) {
+            isNext = initiative.showAll;
+          } else {
+            isNext = true;
+          }
+        }
+      }
+    } while (!isNext);
+    this.nextPlayer = initiative.players[index];
   }
 
   private findIndex(players: InitiativeEntry[], id: number) {

@@ -19,6 +19,13 @@ export class NewInitiativeComponent {
   }
 
   public addPlayer() {
+    if (!this.newPlayer.name ||
+      !this.newPlayer.isNpc && !this.newPlayer.ac ||
+      typeof this.newPlayer.initiative !== 'number') {
+      return;
+    }
+
+
     this.initiative.players.push(this.newPlayer);
     if (this.initiative.currentId < 0) {
       this.initiative.currentId = this.newPlayer.id;
