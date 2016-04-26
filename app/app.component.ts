@@ -1,8 +1,9 @@
 import {Component} from "angular2/core";
 import {RouteConfig, ROUTER_DIRECTIVES} from "angular2/router";
 import {SocketService} from "./services/socket.service";
-import {DisplayInitiativeComponent} from "./components/initiative-control/initiative-control.component";
+import {InitiativeControlComponent} from "./components/initiative-control/initiative-control.component";
 import {InitiativeService} from "./services/initiative.service";
+import {DisplayInitiativeComponent} from "./components/display-initiative/display-initiative.component";
 
 /**
  * Main app component for the character sheet app.
@@ -19,7 +20,8 @@ import {InitiativeService} from "./services/initiative.service";
   ]
 })
 @RouteConfig([
-  {path: '/initiative', name: 'Initiative', component: DisplayInitiativeComponent, useAsDefault: true},
+  {path: '/control', name: 'Control', component: InitiativeControlComponent},
+  {path: '/show',    name: 'Display', component: DisplayInitiativeComponent, useAsDefault: true},
 ])
 export class AppComponent {
   constructor(

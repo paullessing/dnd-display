@@ -5,7 +5,7 @@ import {TimerComponent} from "../timer/timer.component";
 import {NewInitiativeComponent} from "../new-initiative/new-initiative.component";
 
 @Component({
-  selector: 'display-initiative',
+  selector: 'initiative-control',
   styles: [
     `
 .initiative__player--active:after {
@@ -16,7 +16,7 @@ import {NewInitiativeComponent} from "../new-initiative/new-initiative.component
   templateUrl: 'app/components/initiative-control/initiative-control.component.html',
   directives: [TimerComponent, NewInitiativeComponent]
 })
-export class DisplayInitiativeComponent implements OnInit {
+export class InitiativeControlComponent implements OnInit {
   public initiativeOrder: InitiativeOrder;
   public timerIsStarted = false;
 

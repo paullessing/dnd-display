@@ -1,0 +1,4 @@
+<div *ngIf="currentPlayer" class="wrapper">
+  <h1 class="initiative">{{ currentPlayer.name }}</h1>
+  <timer class="large" [isStarted]="timerIsStarted" [seconds]="120"></timer>
+</div>

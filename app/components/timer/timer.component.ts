@@ -2,12 +2,20 @@ import {Component, Input, OnChanges, SimpleChange} from "angular2/core";
 
 @Component({
   selector: 'timer',
+  styles: [`
+`],
   template: `
-  <div [hidden]="!time">{{ time }}</div>
+<div [hidden]="!time" [class.urgent]="isOverTime">
+  <div class="time">{{ time }}</div>
+  <progress [max]="seconds" [value]="accurateSeconds"></progress>
+</div>
 `
 })
 export class TimerComponent implements OnChanges {
   public time: string;
+  public accurateSeconds: number;
+  public isOverTime: boolean;
+  public total: number;
 
   @Input()
   public seconds: number;
@@ -25,6 +33,9 @@ export class TimerComponent implements OnChanges {
   ngOnChanges(changes: {[key: string]: SimpleChange}): void {
     if (changes['seconds']) {
       this.time = this.toTime(this.seconds);
+      this.accurateSeconds = this.seconds;
+      this.isOverTime = false;
+      this.total = this.seconds;
     }
     if (changes['isStarted']) {
       this.changeStarted();
@@ -33,9 +44,14 @@ export class TimerComponent implements OnChanges {
 
   private changeStarted(): void {
     if (this.isStarted) {
+      console.log('Changing started');
       window.requestAnimationFrame(this.doStep);
     } else {
       this.time = this.toTime(this.seconds);
+      this.startTime = null;
+      this.accurateSeconds = this.seconds;
+      this.total = this.seconds;
+      this.isOverTime = false;
     }
   }
 
@@ -47,9 +63,16 @@ export class TimerComponent implements OnChanges {
       this.startTime = timestamp;
     }
     let difference = (timestamp - this.startTime) / 1000;
-    let newSeconds = Math.max(0, this.seconds - difference);
-    this.time = this.toTime(newSeconds);
-    if (newSeconds > 0) {
+    let oldSecondsPositive = this.accurateSeconds >= 0;
+    let newSeconds = Math.floor((this.seconds - difference) * 100) / 100;
+    if (newSeconds < 0 && oldSecondsPositive) {
+      this.isOverTime = true;
+    }
+    this.accurateSeconds = Math.min(this.seconds, Math.abs(newSeconds));
+    this.time = this.toTime(this.accurateSeconds);
+    if (this.isOverTime && this.accurateSeconds >= this.seconds) {
+      this.isStarted = false;
+    } else {
       window.requestAnimationFrame(this.doStep);
     }
   }
