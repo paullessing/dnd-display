@@ -2,7 +2,7 @@ import {Injectable} from "angular2/core";
 import {Http} from "angular2/http";
 import {SocketService, UnsubscribeFunction} from "./socket.service";
 import {Action} from "../entities/action";
-import {InitiativeOrder} from "../entities/initiative";
+import {InitiativeOrder, InitiativeEntry} from "../entities/initiative";
 import {Subject} from "rxjs/Subject";
 import {ReplaySubject} from "rxjs/ReplaySubject";
 
@@ -32,12 +32,16 @@ export class InitiativeService {
     }
     let newInitiative = Object.assign({}, this.currentInitiative);
     let players = newInitiative.players;
-    let newIndex = newInitiative.currentIndex;
+    const currentIndex = this.findIndex(newInitiative.players, this.currentInitiative.currentId);
+    if (currentIndex < 0) {
+      return;
+    }
+    let newIndex = currentIndex;
     do {
       newIndex = (newIndex + 1) % players.length;
-    } while (newIndex !== this.currentInitiative.currentIndex && !players[newIndex].isActive);
-    newInitiative.currentIndex = newIndex;
-    if (!newInitiative.showAll && newIndex < this.currentInitiative.currentIndex) {
+    } while (newIndex !== currentIndex && !players[newIndex].isActive);
+    newInitiative.currentId = players[newIndex].id;
+    if (!newInitiative.showAll && newIndex < currentIndex) {
       // We've wrapped round
       newInitiative.showAll = true;
     }
@@ -51,6 +55,15 @@ export class InitiativeService {
 
   public create(initiative: InitiativeOrder) {
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_CREATE, initiative);
+  }
+
+  private findIndex(players: InitiativeEntry[], id: number) {
+    for (let i = 0; i < players.length; i++) {
+      if (players[i].id === id) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   private updateInitiative(action: Action<InitiativeOrder>): void {

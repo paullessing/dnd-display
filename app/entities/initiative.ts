@@ -2,7 +2,7 @@ export interface InitiativeOrder {
   id?: number;
   isRunning: boolean;
   showAll: boolean;
-  currentIndex: number;
+  currentId: number;
   players: InitiativeEntry[];
 }
 

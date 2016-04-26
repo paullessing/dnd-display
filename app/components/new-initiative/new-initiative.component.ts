@@ -20,6 +20,9 @@ export class NewInitiativeComponent {
 
   public addPlayer() {
     this.initiative.players.push(this.newPlayer);
+    if (this.initiative.currentId < 0) {
+      this.initiative.currentId = this.newPlayer.id;
+    }
     this.resetPlayer();
   }
 
@@ -32,7 +35,7 @@ export class NewInitiativeComponent {
     this.initiative = {
       isRunning: false,
       showAll: false,
-      currentIndex: 0,
+      currentId: -1,
       players: []
     };
     this.maxId = 0;

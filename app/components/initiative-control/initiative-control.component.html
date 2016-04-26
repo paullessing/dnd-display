@@ -2,9 +2,9 @@
   <h1>Initiative</h1>
   <ul>
     <li
-      *ngFor="#player of initiativeOrder.players; #i = index"
+      *ngFor="#player of initiativeOrder.players"
       class="initiative__player"
-      [class.initiative__player--active]="initiativeOrder.currentIndex === i"
+      [class.initiative__player--active]="initiativeOrder.currentId === player.id"
     >
       {{ player.name }} <span *ngIf="player.ac">(AC: {{ player.ac }})</span>
     </li>
