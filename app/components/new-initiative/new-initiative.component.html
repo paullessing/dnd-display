@@ -1,0 +1,48 @@
+<h1>New Initiative</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Total</th>
+      <th>AC</th>
+      <th>Active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="#player of initiative.players">
+      <td>{{ player.name }}{{ player.isNpc ? ' (NPC)' : '' }}</td>
+      <td>{{ player.initiative }}</td>
+      <td>{{ player.ac || '' }}{{ player.canModifyAc ? '*' : '' }}</td>
+      <td>{{ player.isActive ? 'Yes' : 'No' }}</td>
+    </tr>
+  </tbody>
+</table>
+<form (submit)="addPlayer()">
+  <label>
+    Name
+    <input type="text" [(ngModel)]="newPlayer.name" />
+  </label>
+  <label>
+    NPC
+    <input type="checkbox" [(ngModel)]="newPlayer.isNpc" />
+  </label><br />
+  <label>
+    Initiative
+    <input type="number" step="1" [(ngModel)]="newPlayer.initiative" />
+  </label><br />
+  <label>
+    Active?
+    <input type="checkbox" [(ngModel)]="newPlayer.isActive" />
+  </label><br />
+  <label>
+    AC
+    <input type="number" step="1" [(ngModel)]="newPlayer.ac" />
+  </label>
+  <label>
+    Variable
+    <input type="checkbox" [(ngModel)]="newPlayer.canModifyAc" />
+  </label><br />
+  <button type="submit">Add</button>
+</form>
+<br />
+<button type="button" (click)="submitInitiative()">Done</button>

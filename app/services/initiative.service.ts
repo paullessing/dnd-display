@@ -8,6 +8,10 @@ import {ReplaySubject} from "rxjs/ReplaySubject";
 
 export const CHANNEL_NAME_INITIATIVE = 'test-initiative';
 
+export const EVENT_NAME_CREATE: string = 'create';
+export const EVENT_NAME_NEXT_PLAYER: string = 'next';
+export const EVENT_NAME_START_TIMER: string = 'timer-start';
+
 @Injectable()
 export class InitiativeService {
   public initiative: Subject<InitiativeOrder> = new ReplaySubject(1);
@@ -33,12 +37,20 @@ export class InitiativeService {
       newIndex = (newIndex + 1) % players.length;
     } while (newIndex !== this.currentInitiative.currentIndex && !players[newIndex].isActive);
     newInitiative.currentIndex = newIndex;
+    if (!newInitiative.showAll && newIndex < this.currentInitiative.currentIndex) {
+      // We've wrapped round
+      newInitiative.showAll = true;
+    }
 
-    this.socket.postAction(CHANNEL_NAME_INITIATIVE, 'next', newInitiative);
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_NEXT_PLAYER, newInitiative);
   }
 
   public startTimer() {
-    this.socket.postAction(CHANNEL_NAME_INITIATIVE, 'timer-start', this.currentInitiative);
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_START_TIMER, this.currentInitiative);
+  }
+
+  public create(initiative: InitiativeOrder) {
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_CREATE, initiative);
   }
 
   private updateInitiative(action: Action<InitiativeOrder>): void {
@@ -46,12 +58,15 @@ export class InitiativeService {
       this.update(action.data);
     } else {
       switch (action.name) {
-        case 'next':
+        case EVENT_NAME_CREATE:
               this.update(action.data);
-              this.actions.next('next');
+              this.actions.next(EVENT_NAME_CREATE);
+        case EVENT_NAME_NEXT_PLAYER:
+              this.update(action.data);
+              this.actions.next(EVENT_NAME_NEXT_PLAYER);
               break;
-        case 'timer-start':
-              this.actions.next('timer-start');
+        case EVENT_NAME_START_TIMER:
+              this.actions.next(EVENT_NAME_START_TIMER);
               break;
         default:
               console.warn('Unexpected event:', action.name);

@@ -1,7 +1,8 @@
 import {Component, OnInit} from "angular2/core";
-import {InitiativeService} from "../../services/initiative.service";
+import {InitiativeService, EVENT_NAME_START_TIMER, EVENT_NAME_NEXT_PLAYER} from "../../services/initiative.service";
 import {InitiativeOrder} from "../../entities/initiative";
 import {TimerComponent} from "../timer/timer.component";
+import {NewInitiativeComponent} from "../new-initiative/new-initiative.component";
 
 @Component({
   selector: 'display-initiative',
@@ -12,23 +13,8 @@ import {TimerComponent} from "../timer/timer.component";
 }
 `
   ],
-  template: `
-<div *ngIf="initiativeOrder && initiativeOrder.isRunning">
-  <h1>Initiative</h1>
-  <ul>
-    <li
-      *ngFor="#player of initiativeOrder.players; #i = index"
-      class="initiative__player"
-      [class.initiative__player--active]="initiativeOrder.currentIndex === i"
-    >
-      {{ player.name }} <span *ngIf="player.ac">(AC: {{ player.ac }})</span>
-    </li>
-  </ul>
-  <button (click)="next()">Next</button>
-  <timer [isStarted]="timerIsStarted" [seconds]="120"></timer><button (click)="startTimer()">Start Time</button>
-</div>
-`,
-  directives: [TimerComponent]
+  templateUrl: 'app/components/initiative-control/initiative-control.component.html',
+  directives: [TimerComponent, NewInitiativeComponent]
 })
 export class DisplayInitiativeComponent implements OnInit {
   public initiativeOrder: InitiativeOrder;
@@ -57,12 +43,16 @@ export class DisplayInitiativeComponent implements OnInit {
     this.initiativeService.startTimer();
   }
 
+  public newInitiative(initiative: InitiativeOrder) {
+    this.initiativeService.create(initiative);
+  }
+
   private handleAction(action: string) {
     switch(action) {
-      case 'timer-start':
+      case EVENT_NAME_START_TIMER:
         this.timerIsStarted = true;
         break;
-      case 'next':
+      case EVENT_NAME_NEXT_PLAYER:
         this.timerIsStarted = false;
         break;
     }

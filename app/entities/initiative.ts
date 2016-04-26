@@ -1,5 +1,5 @@
 export interface InitiativeOrder {
-  id: number;
+  id?: number;
   isRunning: boolean;
   showAll: boolean;
   currentIndex: number;
@@ -10,6 +10,7 @@ export interface InitiativeEntry {
   id: number;
   name: string;
   initiative: number;
+  isNpc: boolean;
   isActive: boolean;
   ac?: number;
   canModifyAc: boolean;

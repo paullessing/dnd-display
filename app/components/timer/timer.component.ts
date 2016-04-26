@@ -56,7 +56,7 @@ export class TimerComponent implements OnChanges {
 
   private toTime(time: number) {
     let result;
-    let time = Math.floor(time);
+    time = Math.floor(time);
     let seconds = time % 60;
     result = (seconds >= 10 ? seconds : '0' + seconds);
     time = Math.floor(time / 60);

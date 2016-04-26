@@ -1,7 +1,7 @@
 import {Component} from "angular2/core";
 import {RouteConfig, ROUTER_DIRECTIVES} from "angular2/router";
 import {SocketService} from "./services/socket.service";
-import {DisplayInitiativeComponent} from "./components/display-initiative/display-initiative.component";
+import {DisplayInitiativeComponent} from "./components/initiative-control/initiative-control.component";
 import {InitiativeService} from "./services/initiative.service";
 
 /**

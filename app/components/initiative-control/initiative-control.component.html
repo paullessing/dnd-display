@@ -1,0 +1,18 @@
+<div *ngIf="initiativeOrder">
+  <h1>Initiative</h1>
+  <ul>
+    <li
+      *ngFor="#player of initiativeOrder.players; #i = index"
+      class="initiative__player"
+      [class.initiative__player--active]="initiativeOrder.currentIndex === i"
+    >
+      {{ player.name }} <span *ngIf="player.ac">(AC: {{ player.ac }})</span>
+    </li>
+  </ul>
+  <button (click)="next()">Next</button>
+  <timer [isStarted]="timerIsStarted" [seconds]="120"></timer><button (click)="startTimer()">Start Time</button>
+</div>
+<!--<div *ngIf="!initiativeOrder || !initiativeOrder.isRunning">-->
+<div>
+  <new-initiative (created)="newInitiative($event)"></new-initiative>
+</div>
