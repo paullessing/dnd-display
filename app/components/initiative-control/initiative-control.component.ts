@@ -33,6 +33,7 @@ export class InitiativeControlComponent implements OnInit {
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
     });
+    window['componentHandler'].upgradeDom();
   }
 
   public next(): void {

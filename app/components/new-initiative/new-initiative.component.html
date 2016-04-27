@@ -18,31 +18,71 @@
   </tbody>
 </table>
 <form (submit)="addPlayer()">
-  <label>
-    Name
-    <input type="text" [(ngModel)]="newPlayer.name" />
-  </label>
-  <label>
-    NPC
-    <input type="checkbox" [(ngModel)]="newPlayer.isNpc" />
-  </label><br />
-  <label>
-    Initiative
-    <input type="number" step="1" [(ngModel)]="newPlayer.initiative" />
-  </label><br />
-  <label>
-    Active?
-    <input type="checkbox" [(ngModel)]="newPlayer.isActive" />
-  </label><br />
-  <label>
-    AC
-    <input type="number" step="1" [(ngModel)]="newPlayer.ac" />
-  </label>
-  <label>
-    Variable
-    <input type="checkbox" [(ngModel)]="newPlayer.canModifyAc" />
-  </label><br />
-  <button type="submit">Add</button>
+  <div class="form__row">
+    <div class="form__row-entry">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="name" [(ngModel)]="newPlayer.name" required />
+        <label class="mdl-textfield__label" for="name">Player Name</label>
+        <span class="mdl-textfield__error">Required.</span>
+      </div>
+    </div>
+    <div class="form__row-entry">
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="isNpc">
+        <input type="checkbox" id="isNpc" class="mdl-checkbox__input" [(ngModel)]="newPlayer.isNpc" />
+        <span class="mdl-checkbox__label">NPC</span>
+      </label>
+    </div>
+  </div>
+  <div class="form__row">
+    <div class="form__row-entry">
+      <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+        <input
+          class="mdl-textfield__input"
+          type="text"
+          pattern="-?[0-9]*(\.[0-9]+)?"
+          id="initiative"
+          [(ngModel)]="newPlayer.initiative"
+          required />
+        <label class="mdl-textfield__label" for="initiative">Initiative</label>
+        <span class="mdl-textfield__error">Must be a number.</span>
+      </div>
+    </div>
+    <div class="form__row-entry">
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="isActive">
+        <input type="checkbox" id="isActive" class="mdl-checkbox__input" [(ngModel)]="newPlayer.isActive" [checked]="newPlayer.isActive">
+        <span class="mdl-checkbox__label">Active</span>
+      </label>
+    </div>
+  </div>
+  <div class="form__row">
+    <div class="form__row-entry">
+      <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+        <input
+          class="mdl-textfield__input"
+          type="text"
+          pattern="-?[0-9]*(\.[0-9]+)?"
+          id="ac"
+          [(ngModel)]="newPlayer.ac"
+          [required]="!newPlayer.isNpc" />
+        <label class="mdl-textfield__label" for="ac">Armour Class</label>
+        <span class="mdl-textfield__error">Must be a number.</span>
+      </div>
+    </div>
+    <div class="form__row-entry">
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="canModifyAc">
+        <input type="checkbox" id="canModifyAc" class="mdl-checkbox__input" [(ngModel)]="newPlayer.canModifyAc">
+        <span class="mdl-checkbox__label">Variable</span>
+      </label>
+    </div>
+  </div>
+  <button
+    class="mdl-button mdl-button--colored"
+    type="submit"
+  >Add</button>
 </form>
 <br />
-<button type="button" (click)="submitInitiative()">Done</button>
+<button
+  class="mdl-button"
+  type="button"
+  (click)="submitInitiative()"
+>Done</button>

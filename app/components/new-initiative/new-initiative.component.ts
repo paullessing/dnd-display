@@ -3,7 +3,16 @@ import {InitiativeOrder, InitiativeEntry} from "../../entities/initiative";
 
 @Component({
   selector: 'new-initiative',
-  templateUrl: 'app/components/new-initiative/new-initiative.component.html'
+  templateUrl: 'app/components/new-initiative/new-initiative.component.html',
+  styles: [`
+.form__row {
+  display: block;
+  width: 100%;
+}
+.form__row-entry {
+  display: inline-block;
+}
+`]
 })
 export class NewInitiativeComponent {
   @Output()
@@ -19,12 +28,12 @@ export class NewInitiativeComponent {
   }
 
   public addPlayer() {
+    // TODO MDL returns initiative as string, need to parse
     if (!this.newPlayer.name ||
       !this.newPlayer.isNpc && !this.newPlayer.ac ||
       typeof this.newPlayer.initiative !== 'number') {
       return;
     }
-
 
     this.initiative.players.push(this.newPlayer);
     if (this.initiative.currentId < 0) {

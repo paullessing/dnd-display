@@ -10,9 +10,11 @@
     </li>
   </ul>
   <button
+    class="mdl-button mdl-button--raised mdl-button--colored"
     (click)="next()"
   >Next</button>
   <button
+    class="mdl-button"
     (click)="previous()"
   >Undo</button>
   <timer [isStarted]="timerIsStarted" [seconds]="120"></timer><button (click)="startTimer()">Start Time</button>

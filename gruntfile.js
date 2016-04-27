@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            src: ['app/**/*', 'index.html', 'style/**/*'],
+            src: ['app/**/*', 'index.html', 'style/**/*', 'static/**/*'],
             dest: 'dist'
           }
         ]
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     },
     watch: {
       staticFiles: {
-        files: ['app/**/*', 'index.html', 'style/**/*'],
+        files: ['app/**/*', 'index.html', 'style/**/*', 'static/**/*'],
         tasks: ['newer:copy:main'],
         options: {
           livereload: 30000
