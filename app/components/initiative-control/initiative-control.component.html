@@ -9,7 +9,12 @@
       {{ player.name }} <span *ngIf="player.ac">(AC: {{ player.ac }})</span>
     </li>
   </ul>
-  <button (click)="next()">Next</button>
+  <button
+    (click)="next()"
+  >Next</button>
+  <button
+    (click)="previous()"
+  >Undo</button>
   <timer [isStarted]="timerIsStarted" [seconds]="120"></timer><button (click)="startTimer()">Start Time</button>
 </div>
 <!--<div *ngIf="!initiativeOrder || !initiativeOrder.isRunning">-->

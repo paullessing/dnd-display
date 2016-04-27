@@ -32,11 +32,15 @@ export class InitiativeControlComponent implements OnInit {
     });
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
-    })
+    });
   }
 
   public next(): void {
     this.initiativeService.nextPlayer();
+  }
+
+  public previous(): void {
+    this.initiativeService.previousPlayer();
   }
 
   public startTimer(): void {

@@ -49,6 +49,25 @@ export class InitiativeService {
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_NEXT_PLAYER, newInitiative);
   }
 
+  public previousPlayer() {
+    if (!this.currentInitiative) {
+      return;
+    }
+    let newInitiative = Object.assign({}, this.currentInitiative);
+    let players = newInitiative.players;
+    const currentIndex = this.findIndex(newInitiative.players, this.currentInitiative.currentId);
+    if (currentIndex < 0) {
+      return;
+    }
+    let newIndex = currentIndex;
+    do {
+      newIndex = (newIndex + players.length - 1) % players.length;
+    } while (newIndex !== currentIndex && !players[newIndex].isActive);
+    newInitiative.currentId = players[newIndex].id;
+
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_NEXT_PLAYER, newInitiative);
+  }
+
   public startTimer() {
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_START_TIMER, this.currentInitiative);
   }
