@@ -1,16 +1,17 @@
 import {Component, Output, EventEmitter} from "angular2/core";
 import {InitiativeOrder, InitiativeEntry} from "../../entities/initiative";
+import {NewPlayerComponent} from "../new-player/new-player.component";
 
 @Component({
   selector: 'new-initiative',
-  templateUrl: 'app/components/new-initiative/new-initiative.component.html'
+  templateUrl: 'app/components/new-initiative/new-initiative.component.html',
+  directives: [NewPlayerComponent]
 })
 export class NewInitiativeComponent {
   @Output()
   public created: EventEmitter<InitiativeOrder> = new EventEmitter();
 
   public initiative: InitiativeOrder;
-  public newPlayer: InitiativeEntry;
 
   private maxId: number;
 
@@ -18,19 +19,13 @@ export class NewInitiativeComponent {
     this.resetInitiativeData();
   }
 
-  public addPlayer() {
-    if (!this.newPlayer.name ||
-      !this.newPlayer.isNpc && !this.newPlayer.ac ||
-      typeof this.newPlayer.initiative !== 'number') {
-      return;
-    }
-
-
-    this.initiative.players.push(this.newPlayer);
+  public addPlayer(player: InitiativeEntry) {
+    let newPlayer = Object.assign({}, player);
+    newPlayer.id = ++this.maxId;
+    this.initiative.players.push(newPlayer);
     if (this.initiative.currentId < 0) {
-      this.initiative.currentId = this.newPlayer.id;
+      this.initiative.currentId = newPlayer.id;
     }
-    this.resetPlayer();
   }
 
   public submitInitiative() {
@@ -40,24 +35,12 @@ export class NewInitiativeComponent {
 
   private resetInitiativeData() {
     this.initiative = {
+      roundNumber: 1,
       isRunning: false,
       showAll: false,
       currentId: -1,
       players: []
     };
     this.maxId = 0;
-    this.resetPlayer();
-  }
-
-  private resetPlayer() {
-    this.newPlayer = {
-      id: ++this.maxId,
-      name: null,
-      isNpc: false,
-      initiative: null,
-      ac: null,
-      canModifyAc: false,
-      isActive: true
-    }
   }
 }

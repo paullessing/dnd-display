@@ -41,9 +41,10 @@ export class InitiativeService {
       newIndex = (newIndex + 1) % players.length;
     } while (newIndex !== currentIndex && !players[newIndex].isActive);
     newInitiative.currentId = players[newIndex].id;
-    if (!newInitiative.showAll && newIndex < currentIndex) {
+    if (newIndex < currentIndex) {
       // We've wrapped round
       newInitiative.showAll = true;
+      newInitiative.roundNumber++;
     }
 
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_NEXT_PLAYER, newInitiative);
@@ -64,6 +65,11 @@ export class InitiativeService {
       newIndex = (newIndex + players.length - 1) % players.length;
     } while (newIndex !== currentIndex && !players[newIndex].isActive);
     newInitiative.currentId = players[newIndex].id;
+
+    if (newIndex > currentIndex) {
+      // We've wrapped round
+      newInitiative.roundNumber--;
+    }
 
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_NEXT_PLAYER, newInitiative);
   }

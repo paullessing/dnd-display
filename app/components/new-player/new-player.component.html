@@ -1,0 +1,27 @@
+<form (submit)="submit()">
+  <label>
+    Name
+    <input type="text" [(ngModel)]="newPlayer.name" />
+  </label>
+  <label>
+    NPC
+    <input type="checkbox" [(ngModel)]="newPlayer.isNpc" />
+  </label><br />
+  <label>
+    Initiative
+    <input type="number" step="1" [(ngModel)]="newPlayer.initiative" />
+  </label><br />
+  <label>
+    Active?
+    <input type="checkbox" [(ngModel)]="newPlayer.isActive" />
+  </label><br />
+  <label>
+    AC
+    <input type="number" step="1" [(ngModel)]="newPlayer.ac" />
+  </label>
+  <label>
+    Variable
+    <input type="checkbox" [(ngModel)]="newPlayer.canModifyAc" />
+  </label><br />
+  <button type="submit">Add</button>
+</form>
