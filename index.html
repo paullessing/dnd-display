@@ -8,30 +8,20 @@
   <script src="http://home.paullessing.com/socket.io/socket.io.js"></script>
   <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
   <script src="node_modules/systemjs/dist/system.src.js"></script>
-  <script src="node_modules/rxjs/bundles/Rx.js"></script>
-  <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
-  <script src="node_modules/angular2/bundles/router.dev.js"></script>
-  <script src="node_modules/angular2/bundles/http.dev.js"></script>
+  <!--<script src="node_modules/rxjs/bundles/Rx.js"></script>-->
+  <!--<script src="node_modules/angular2/bundles/angular2.dev.js"></script>-->
+  <!--<script src="node_modules/angular2/bundles/router.dev.js"></script>-->
+  <!--<script src="node_modules/angular2/bundles/http.dev.js"></script>-->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet" type="text/css">
 
   <!-- 2. Configure SystemJS -->
-  <script>
-    System.config({
-      packages: {
-        app: {
-          format: 'register',
-          defaultExtension: 'js'
-        }
-      },
-      map: {
-        'moment': '/node_modules/moment/moment.js'
-      }
-    });
-    Promise.all([
-      System.import('node_modules/rxjs/bundles/Rx.js'),
-      System.import('app/boot')
-    ]).catch(console.error.bind(console));
-  </script>
+  <script src="app/system-config.js"></script>
+  <!--<script>-->
+    <!--Promise.all([-->
+      <!--System.import('node_modules/rxjs/bundles/Rx.js'),-->
+      <!--System.import('app/boot')-->
+    <!--]).catch(console.error.bind(console));-->
+  <!--</script>-->
 
   <link rel="stylesheet" href="style/main.css" />
 </head>
