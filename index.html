@@ -27,10 +27,8 @@
         'moment': '/node_modules/moment/moment.js'
       }
     });
-    Promise.all([
-      System.import('node_modules/rxjs/bundles/Rx.js'),
-      System.import('app/boot')
-    ]).catch(console.error.bind(console));
+    System.import('app/boot')
+      .catch(console.error.bind(console));
   </script>
 
   <link rel="stylesheet" href="style/main.css" />
