@@ -31,3 +31,5 @@ style/*.css
 style/*.css.map
 
 .sass-cache/
+
+env-config.ts
