@@ -1,8 +1,10 @@
 <div *ngIf="currentPlayer" class="wrapper">
-  <p class="currentPlayer">{{ currentPlayer.name }}</p>
-  <timer class="large" [control]="timerControl" [seconds]="120"></timer>
+  <div class="currentPlayer">
+    <p class="currentPlayer__name">{{ currentPlayer.name }}</p>
+    <timer class="large" [control]="timerControl" [seconds]="120"></timer>
+  </div>
   <div class="nextPlayer">
-    <h4 class="nextPlayer__label">Up Next</h4>
+    <p class="nextPlayer__label">Up Next</p>
     <p class="nextPlayer__name">{{ nextPlayer.name }}</p>
   </div>
 </div>

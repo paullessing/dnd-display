@@ -6,17 +6,23 @@
       <th>AC</th>
       <th>Total</th>
       <th>Active</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngIf="!initiative.players.length" class="currentTable__placeholder">
-      <td colspan="4">Enter data below</td>
+      <td colspan="5">Enter data below</td>
     </tr>
-    <tr *ngFor="#player of initiative.players">
+    <tr *ngFor="#player of initiative.players; #i = index">
       <td>{{ player.name }}{{ player.isNpc ? ' (NPC)' : '' }}</td>
       <td>{{ player.ac || '' }}{{ player.canModifyAc ? '*' : '' }}</td>
       <td>{{ player.initiative }}</td>
       <td>{{ player.isActive ? 'Yes' : 'No' }}</td>
+      <td>
+        <a class="action" href="javascript:void(0)" (click)="moveUp(i)">Up</a>
+        <a class="action" href="javascript:void(0)" (click)="moveDown(i)">Down</a>
+        <a class="action" href="javascript:void(0)" (click)="remove(i)">Remove</a>
+      </td>
     </tr>
   </tbody>
 </table>

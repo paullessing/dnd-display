@@ -36,7 +36,9 @@ export class NewPlayerComponent implements OnInit {
       this.initPlayers(); // TODO optimise this
     }
 
-    this.resetPlayer();
+    setTimeout(() => {
+      this.resetPlayer();
+    }, 10);
   }
 
   public selectPlayer(playerName: string) {

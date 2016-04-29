@@ -30,7 +30,7 @@ import {Subject} from "rxjs/Subject";
   padding: 4px 8px;
 }
 .currentTable th {
-  font-weight: bold;
+  font-weight: 400;
   text-align: left;
 }
 .currentTable thead {
@@ -42,6 +42,7 @@ border-bottom: 1px solid #666;
 }
 .toggle-active {
   font-size: 0.8em;
+  font-weight: normal;
   color: #363636;
 }
 `

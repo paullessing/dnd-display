@@ -22,7 +22,7 @@ export enum TimerEvent {
   margin-bottom: 0.2em;
 }
 :host.large progress {
-  width: 50vw;
+  width: 100%;
   -webkit-appearance: none;
   appearance: none;
   height: 6px;
@@ -101,6 +101,7 @@ export class TimerComponent implements OnChanges, OnInit {
     this.accurateSeconds = this.seconds;
     this.isOverTime = false;
     this.total = this.seconds;
+    this.startTime = null;
   }
 
   private toggle(run: boolean): void {

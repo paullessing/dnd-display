@@ -22,23 +22,35 @@ import {Subject} from "rxjs/Subject";
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   color: #363636;
   font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: 100;
 }
 .currentPlayer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.currentPlayer__name {
   font-size: 26vh;
   text-align: center;
 }
 timer {
   margin-bottom: 4vh;
+  width: 70vw;
+  display: block;
 }
 .nextPlayer {
+  padding: 2vh 0;
   text-align: center;
+  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 .nextPlayer__label {
+  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: 100;
   font-size: 6vh;
 }

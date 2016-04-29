@@ -20,11 +20,17 @@ import {NewPlayerComponent} from "../new-player/new-player.component";
   padding: 4px 8px;
 }
 .currentTable th {
-  font-weight: bold;
+  font-weight: 400;
   text-align: left;
 }
 .currentTable thead {
-border-bottom: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+.action {
+  font-size: 0.8em;
+  font-weight: normal;
+  margin-right: 1em;
+  color: #363636;
 }
 `],
   directives: [NewPlayerComponent]
@@ -39,6 +45,40 @@ export class NewInitiativeComponent {
 
   constructor() {
     this.resetInitiativeData();
+  }
+
+  public moveUp(index: number) {
+    if (index <= 0 || index >= this.initiative.players.length) {
+      return;
+    }
+    this.swap(index, index - 1);
+    this.initiative.currentId = this.initiative.players[0].id;
+  }
+
+  public moveDown(index: number) {
+    if (index < 0 || index >= this.initiative.players.length - 1) {
+      return;
+    }
+    this.swap(index, index + 1);
+    this.initiative.currentId = this.initiative.players[0].id;
+  }
+
+  public remove(index: number) {
+    if (index < 0 || index > this.initiative.players.length - 1) {
+      return;
+    }
+    this.initiative.players.splice(index, 1);
+    if (this.initiative.players.length) {
+      this.initiative.currentId = this.initiative.players[0].id;
+    } else {
+      this.initiative.currentId = -1;
+    }
+  }
+
+  private swap(index1, index2) {
+    let temp = this.initiative.players[index1];
+    this.initiative.players[index1] = this.initiative.players[index2];
+    this.initiative.players[index2] = temp;
   }
 
   public addPlayer(player: InitiativeEntry) {
