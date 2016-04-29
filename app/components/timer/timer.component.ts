@@ -49,7 +49,7 @@ export enum TimerEvent {
   template: `
 <div [hidden]="!time" [class.urgent]="isOverTime">
   <div class="time">{{ time }}</div>
-  <progress [max]="seconds" [value]="accurateSeconds"></progress>
+  <progress *ngIf="!shortTime" [max]="seconds" [value]="accurateSeconds"></progress>
 </div>
 `
 })
@@ -63,7 +63,13 @@ export class TimerComponent implements OnChanges, OnInit {
   public seconds: number;
 
   @Input()
-  public control: Observable<TimerEvent>
+  public control: Observable<TimerEvent>;
+
+  @Input()
+  public shortTime: boolean;
+
+  @Input()
+  public inputTime: number;
 
   private isRunning: boolean;
   private startTime: number;
@@ -74,24 +80,32 @@ export class TimerComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    this.control.subscribe((event: TimerEvent) => {
-      switch (event) {
-        case TimerEvent.START:
-          this.toggle(true);
-          break;
-        case TimerEvent.STOP:
-          this.toggle(false);
-          break;
-        case TimerEvent.RESET:
-          this.reset();
-          break;
-      }
-    });
+    if (this.control) {
+      this.control.subscribe((event: TimerEvent) => {
+        switch (event) {
+          case TimerEvent.START:
+            this.toggle(true);
+            break;
+          case TimerEvent.STOP:
+            this.toggle(false);
+            break;
+          case TimerEvent.RESET:
+            this.reset();
+            break;
+        }
+      });
+    }
+    if (this.inputTime) {
+      this.time = this.toTime(this.inputTime);
+    }
   }
 
   ngOnChanges(changes: {[key: string]: SimpleChange}): void {
     if (changes['seconds']) {
       this.reset();
+    }
+    if (changes['inputTime']) {
+      this.time = this.toTime(this.inputTime);
     }
   }
 
@@ -132,15 +146,14 @@ export class TimerComponent implements OnChanges, OnInit {
       this.isOverTime = true;
     }
     this.accurateSeconds = Math.min(this.seconds, Math.abs(newSeconds));
-    this.time = this.toTime(this.accurateSeconds, newSeconds < 0);
-    if (this.isOverTime && this.accurateSeconds >= this.seconds) {
-      this.isRunning = false;
-    } else {
-      window.requestAnimationFrame(this.doStep);
-    }
+    this.time = this.toTime(Math.abs(newSeconds), newSeconds < 0);
+    window.requestAnimationFrame(this.doStep);
   }
 
   private toTime(time: number, isNegative?: boolean) {
+    if (typeof time === 'undefined') {
+      return '';
+    }
     let prefix = isNegative ? '-' : '';
     let result;
     time = Math.floor(time);
@@ -148,14 +161,23 @@ export class TimerComponent implements OnChanges, OnInit {
     result = (seconds >= 10 ? seconds : '0' + seconds);
     time = Math.floor(time / 60);
     if (time === 0) {
-      result = '00:' + result;
+      if (this.shortTime) {
+        return seconds + 's';
+      }
+      result = '00:' + result; // seconds
       return prefix + result;
     }
     let minutes = time % 60;
     result = (minutes >= 10 ? minutes : '0' + minutes) + ':' + result;
     time = Math.floor(time / 60);
     if (time === 0) {
+      if (this.shortTime) {
+        return minutes + 'm';
+      }
       return prefix + result;
+    }
+    if (this.shortTime) {
+      return time + 'h ' + (minutes >= 10 ? minutes : '0' + minutes) + 'm';
     }
     return prefix + time + ':' + result;
   }

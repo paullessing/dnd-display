@@ -1,16 +1,20 @@
 <div *ngIf="currentPlayer" class="wrapper">
   <div class="currentPlayer">
     <p class="currentPlayer__name">{{ currentPlayer.name }}</p>
-    <timer class="large" [control]="timerControl" [seconds]="120"></timer>
+    <timer class="large countdown" [control]="timerControl" [seconds]="10"></timer>
   </div>
   <div class="footer">
-    <div class="roundNumber" *ngIf="currentRound">
-      <p class="roundNumber__label">Round</p>
-      <p class="roundNumber__value">{{ currentRound }}</p>
+    <div class="footer__block footer__block--minor" *ngIf="currentRound">
+      <p class="footer__label">Round</p>
+      <p class="footer__value">{{ currentRound }}</p>
     </div>
-    <div class="nextPlayer">
-      <p class="nextPlayer__label">Up Next</p>
-      <p class="nextPlayer__name">{{ nextPlayer.name }}</p>
+    <div class="footer__block">
+      <p class="footer__label">Up Next</p>
+      <p class="footer__value">{{ nextPlayer.name }}</p>
+    </div>
+    <div class="footer__block footer__block--minor" *ngIf="startTime">
+      <p class="footer__label">Combat Time</p>
+      <p class="footer__value"><timer [shortTime]="true" [inputTime]="combatTime"></timer></p>
     </div>
   </div>
 </div>

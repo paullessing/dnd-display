@@ -30,6 +30,7 @@ export class InitiativeService {
 
   public clear() {
     let newInitiative: InitiativeOrder = {
+      startTime: null,
       isRunning: false,
       currentId: 0,
       roundNumber: 0,
@@ -112,6 +113,7 @@ export class InitiativeService {
   }
 
   public create(initiative: InitiativeOrder) {
+    initiative.startTime = new Date().toISOString();
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_CREATE, initiative);
   }
 

@@ -39,7 +39,7 @@ import {Subject} from "rxjs/Subject";
   font-size: 26vh;
   text-align: center;
 }
-timer {
+timer.countdown {
   margin-bottom: 4vh;
   width: 70vw;
   display: block;
@@ -50,32 +50,24 @@ timer {
   justify-content: space-around;
   width: 100%;
 }
-.nextPlayer {
-  flex: 1 1 50%;
+.footer__block {
+  flex: 1 1 33.3%;
   padding: 0 2vw;
   text-align: center;
   font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
-.nextPlayer__label {
+.footer__label {
   font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: 100;
   font-size: 6vh;
 }
-.nextPlayer__name {
+.footer__value {
   font-size: 12vh;
+  line-height: 12vh;
 }
-.roundNumber {
-  flex: 1 1 50%;
-  text-align: center;
-  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-}
-.roundNumber__label {
-  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-weight: 100;
-  font-size: 6vh;
-}
-.roundNumber__value {
-  font-size: 12vh;
+.footer__block--minor .footer__value {
+  font-size: 9vh;
+  vertical-align: bottom;
 }
 `]
 })
@@ -84,6 +76,9 @@ export class DisplayInitiativeComponent implements OnInit {
   public nextPlayer = null;
   public currentRound = null;
   public timerControl: Subject<TimerEvent> = new Subject<TimerEvent>();
+  public combatTime: number;
+
+  private startTime: string;
 
   constructor(
     private initiativeService: InitiativeService
@@ -94,10 +89,15 @@ export class DisplayInitiativeComponent implements OnInit {
     this.initiativeService.initiative.subscribe((order: InitiativeOrder) => {
       this.updatePlayers(order);
       this.currentRound = order.roundNumber || null;
+      this.startTime = order.startTime;
+      this.combatTime = this.getCombatTime();
     });
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
-    })
+    });
+    setInterval(() => {
+      this.combatTime = this.getCombatTime();
+    }, 1000);
   }
 
   private updatePlayers(initiative: InitiativeOrder) {
@@ -125,6 +125,16 @@ export class DisplayInitiativeComponent implements OnInit {
       }
     } while (!isNext);
     this.nextPlayer = initiative.players[index];
+  }
+
+  private getCombatTime(): number {
+    if (this.startTime) {
+      let time = new Date(this.startTime).getTime();
+      let diff = (new Date().getTime() - time) / 1000;
+      return diff;
+    } else {
+      return 0;
+    }
   }
 
   private findIndex(players: InitiativeEntry[], id: number) {

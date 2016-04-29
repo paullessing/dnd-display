@@ -4,6 +4,7 @@ export interface InitiativeOrder {
   isRunning: boolean;
   showAll: boolean;
   currentId: number;
+  startTime: string;
   players: InitiativeEntry[];
 }
 

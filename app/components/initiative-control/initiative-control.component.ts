@@ -45,6 +45,9 @@ border-bottom: 1px solid #666;
   font-weight: normal;
   color: #363636;
 }
+.inline-timer {
+  display: inline-block;
+}
 `
   ],
   templateUrl: 'app/components/initiative-control/initiative-control.component.html',
@@ -53,6 +56,7 @@ border-bottom: 1px solid #666;
 export class InitiativeControlComponent implements OnInit {
   public initiativeOrder: InitiativeOrder;
   public timerControl: Subject<TimerEvent> = new Subject<TimerEvent>();
+  public combatTime: number;
 
   constructor(
     private initiativeService: InitiativeService
@@ -66,6 +70,10 @@ export class InitiativeControlComponent implements OnInit {
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
     });
+    // TODO FIXME
+    setInterval(() => {
+      this.combatTime = this.getCombatTime();
+    }, 1000);
   }
 
   public clear(): void {
@@ -98,6 +106,16 @@ export class InitiativeControlComponent implements OnInit {
 
   public toggleActive(id: number) {
     this.initiativeService.toggleActive(id);
+  }
+
+  private getCombatTime(): number {
+    if (this.initiativeOrder && this.initiativeOrder.startTime) {
+      let time = new Date(this.initiativeOrder.startTime).getTime();
+      let diff = (new Date().getTime() - time) / 1000;
+      return diff;
+    } else {
+      return 0;
+    }
   }
 
   private handleAction(action: string) {

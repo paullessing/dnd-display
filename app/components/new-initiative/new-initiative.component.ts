@@ -100,6 +100,7 @@ export class NewInitiativeComponent {
 
   private resetInitiativeData() {
     this.initiative = {
+      startTime: null,
       roundNumber: 1,
       isRunning: false,
       showAll: false,

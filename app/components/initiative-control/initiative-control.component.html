@@ -2,7 +2,7 @@
   <h1>Initiative</h1>
   <div *ngIf="!initiativeOrder.players.length">No initiative</div>
   <div style="margin-bottom: 1em" *ngIf="initiativeOrder.players.length">
-    <h3>Round {{ initiativeOrder.roundNumber || 1 }}</h3>
+    <h3>Round {{ initiativeOrder.roundNumber || 1 }} &mdash; <timer class="inline-timer" [shortTime]="true" [inputTime]="combatTime"></timer></h3>
     <table class="currentTable">
       <thead>
       <tr>
@@ -30,10 +30,12 @@
       (click)="previous()"
     >Undo</button>
   </div>
-  <timer [control]="timerControl" [seconds]="120"></timer><br />
-  <button class="button" (click)="startTimer()">Start</button>
-  <button class="button" (click)="stopTimer()">Stop</button>
-  <button class="button" (click)="resetTimer()">Reset</button>
+  <div>
+    <timer [control]="timerControl" [seconds]="120"></timer><br />
+    <button class="button" (click)="startTimer()">Start</button>
+    <button class="button" (click)="stopTimer()">Stop</button>
+    <button class="button" (click)="resetTimer()">Reset</button>
+  </div>
 </div>
 <div style="margin-bottom: 2em;">
   <button class="button button--flat" type="button" (click)="clear()">Clear Initiative</button>
