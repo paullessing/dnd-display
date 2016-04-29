@@ -67,6 +67,10 @@ export class DisplayInitiativeComponent implements OnInit {
   }
 
   private updatePlayers(initiative: InitiativeOrder) {
+    if (!initiative.players.length) {
+      this.currentPlayer = null;
+      return;
+    }
     let currentIndex = this.findIndex(initiative.players, initiative.currentId);
     this.currentPlayer = initiative.players[currentIndex];
     let index = currentIndex;

@@ -28,6 +28,17 @@ export class InitiativeService {
     this.subscribeAndGet<InitiativeOrder>(CHANNEL_NAME_INITIATIVE, action => this.updateInitiative(action));
   }
 
+  public clear() {
+    let newInitiative: InitiativeOrder = {
+      isRunning: false,
+      currentId: 0,
+      roundNumber: 0,
+      showAll: false,
+      players: []
+    };
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_CREATE, newInitiative);
+  }
+
   public nextPlayer() {
     if (!this.currentInitiative) {
       return;

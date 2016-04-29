@@ -36,11 +36,14 @@ export class InitiativeControlComponent implements OnInit {
   ngOnInit(): void {
     this.initiativeService.initiative.subscribe((order: InitiativeOrder) => {
       this.initiativeOrder = order;
-      console.log('Ive got an initiative');
     });
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
     });
+  }
+
+  public clear(): void {
+    this.initiativeService.clear();
   }
 
   public next(): void {

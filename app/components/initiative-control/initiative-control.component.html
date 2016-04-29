@@ -1,6 +1,7 @@
 <div *ngIf="initiativeOrder" style="margin-bottom: 2em;">
   <h1>Initiative</h1>
-  <div style="margin-bottom: 1em">
+  <div *ngIf="!initiativeOrder.players.length">No initiative</div>
+  <div style="margin-bottom: 1em" *ngIf="initiativeOrder.players.length">
     <h3>Round {{ initiativeOrder.roundNumber || 1 }}</h3>
     <ul>
       <li
@@ -24,8 +25,12 @@
   <button class="button" (click)="startTimer()">Start</button>
   <button class="button" (click)="stopTimer()">Stop</button>
   <button class="button" (click)="resetTimer()">Reset</button>
+  <br />
+  <br />
+  <button class="button button--flat" type="button" (click)="clear()">Clear Initiative</button>
 </div>
 <!--<div *ngIf="!initiativeOrder || !initiativeOrder.isRunning">-->
+
 <div>
   <new-initiative (created)="newInitiative($event)"></new-initiative>
 </div>
