@@ -44,6 +44,10 @@ module.exports = function(grunt) {
       //}
     },
     run: {
+      sass: {
+        cmd: 'sass',
+        args: ['style/main.scss', 'dist/style/main.css']
+      },
       tswait: {
         cmd: 'tsc',
         // args: ['--listFiles']
@@ -97,4 +101,5 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('serve', ['clean', 'copy', 'run:tswait', 'connect:dev', 'run:ts', 'watch']);
+  grunt.registerTask('build', ['clean', 'copy', 'run:sass', 'run:tswait']);
 };
