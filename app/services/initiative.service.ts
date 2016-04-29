@@ -5,7 +5,7 @@ import {Action} from "../entities/action";
 import {InitiativeOrder, InitiativeEntry} from "../entities/initiative";
 import {Subject} from "rxjs/Subject";
 import {ReplaySubject} from "rxjs/ReplaySubject";
-import {CHANNEL_NAME_INITIATIVE} from "../../env-config";
+import {CHANNEL_NAME_INITIATIVE} from "../env-config";
 
 export const EVENT_NAME_CREATE: string = 'create';
 export const EVENT_NAME_NEXT_PLAYER: string = 'next';
