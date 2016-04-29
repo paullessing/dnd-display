@@ -1,27 +1,57 @@
+<h3>Add Player</h3>
 <form (submit)="submit()">
-  <label>
-    Name
-    <input type="text" [(ngModel)]="newPlayer.name" />
-  </label>
-  <label>
-    NPC
-    <input type="checkbox" [(ngModel)]="newPlayer.isNpc" />
-  </label><br />
-  <label>
-    Initiative
-    <input type="number" step="1" [(ngModel)]="newPlayer.initiative" />
-  </label><br />
-  <label>
-    Active?
-    <input type="checkbox" [(ngModel)]="newPlayer.isActive" />
-  </label><br />
-  <label>
-    AC
-    <input type="number" step="1" [(ngModel)]="newPlayer.ac" />
-  </label>
-  <label>
-    Variable
-    <input type="checkbox" [(ngModel)]="newPlayer.canModifyAc" />
-  </label><br />
-  <button type="submit">Add</button>
+  <div class="form__row" *ngIf="playerNames.length">
+    <select
+      [ngModel]="selectedPlayer"
+      (ngModelChange)="selectPlayer($event)"
+    >
+      <option></option>
+      <option *ngFor="#player of playerNames">{{player}}</option>
+    </select><br />
+  </div>
+
+  <div class="form__row">
+    <div class="input input--text">
+      <label for="name" class="input__label">Name</label>
+      <input id="name" class="input__element" type="text" [(ngModel)]="newPlayer.name" autocomplete="off" />
+    </div>
+    <div class="input input--check">
+      <input type="checkbox" class="input__element" id="isNpc" [(ngModel)]="newPlayer.isNpc" />
+      <label class="input__label" for="isNpc">
+        NPC
+      </label>
+    </div>
+  </div>
+
+  <div class="form__row">
+    <div class="input input--number">
+      <label for="ac" class="input__label">
+        AC
+      </label>
+      <input id="ac" class="input__element" type="number" step="1" [(ngModel)]="newPlayer.ac" />
+    </div>
+    <div class="input input--check">
+      <input id="variable" class="input__element" type="checkbox" [(ngModel)]="newPlayer.canModifyAc" />
+      <label for="variable" class="input__label">
+        Variable AC
+      </label>
+    </div>
+  </div>
+
+  <div class="form__row">
+    <div class="input input--number">
+      <label for="initiative" class="input__label">Initiative</label>
+      <input id="initiative" class="input__element" type="number" step="1" [(ngModel)]="newPlayer.initiative" />
+    </div>
+    <div class="input input--check">
+      <input id="isActive" class="input__element" type="checkbox" [(ngModel)]="newPlayer.isActive" />
+      <label class="input__label" for="isActive">
+        Is Active
+      </label>
+    </div>
+  </div>
+
+  <div class="form__row">
+    <button class="button" type="submit">Add</button>
+  </div>
 </form>

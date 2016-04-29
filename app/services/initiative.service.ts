@@ -11,6 +11,8 @@ export const CHANNEL_NAME_INITIATIVE = 'test-initiative';
 export const EVENT_NAME_CREATE: string = 'create';
 export const EVENT_NAME_NEXT_PLAYER: string = 'next';
 export const EVENT_NAME_START_TIMER: string = 'timer-start';
+export const EVENT_NAME_STOP_TIMER:  string = 'timer-stop';
+export const EVENT_NAME_RESET_TIMER: string = 'timer-reset';
 
 @Injectable()
 export class InitiativeService {
@@ -78,6 +80,14 @@ export class InitiativeService {
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_START_TIMER, this.currentInitiative);
   }
 
+  public stopTimer() {
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_STOP_TIMER, this.currentInitiative);
+  }
+
+  public resetTimer() {
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_RESET_TIMER, this.currentInitiative);
+  }
+
   public create(initiative: InitiativeOrder) {
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_CREATE, initiative);
   }
@@ -104,7 +114,9 @@ export class InitiativeService {
               this.actions.next(EVENT_NAME_NEXT_PLAYER);
               break;
         case EVENT_NAME_START_TIMER:
-              this.actions.next(EVENT_NAME_START_TIMER);
+        case EVENT_NAME_STOP_TIMER:
+        case EVENT_NAME_RESET_TIMER:
+              this.actions.next(action.name);
               break;
         default:
               console.warn('Unexpected event:', action.name);

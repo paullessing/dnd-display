@@ -1,5 +1,5 @@
 <h1>New Initiative</h1>
-<table>
+<table class="currentTable">
   <thead>
     <tr>
       <th>Name</th>
@@ -9,6 +9,9 @@
     </tr>
   </thead>
   <tbody>
+    <tr *ngIf="!initiative.players.length" class="currentTable__placeholder">
+      <td colspan="4">Enter data below</td>
+    </tr>
     <tr *ngFor="#player of initiative.players">
       <td>{{ player.name }}{{ player.isNpc ? ' (NPC)' : '' }}</td>
       <td>{{ player.initiative }}</td>
@@ -17,6 +20,6 @@
     </tr>
   </tbody>
 </table>
+<button class="button" type="button" (click)="submitInitiative()">Done</button>
+<br /><br />
 <new-player (created)="addPlayer($event)"></new-player>
-<br />
-<button type="button" (click)="submitInitiative()">Done</button>

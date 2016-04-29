@@ -5,6 +5,28 @@ import {NewPlayerComponent} from "../new-player/new-player.component";
 @Component({
   selector: 'new-initiative',
   templateUrl: 'app/components/new-initiative/new-initiative.component.html',
+  styles: [`
+.currentTable {
+  margin-bottom: 1em;
+  min-width: 400px;
+  border: 1px solid #666;
+}
+.currentTable__placeholder {
+  color: #333;
+  font-style: italic;
+}
+.currentTable td,
+.currentTable th {
+  padding: 4px 8px;
+}
+.currentTable th {
+  font-weight: bold;
+  text-align: left;
+}
+.currentTable thead {
+border-bottom: 1px solid #666;
+}
+`],
   directives: [NewPlayerComponent]
 })
 export class NewInitiativeComponent {
@@ -29,6 +51,9 @@ export class NewInitiativeComponent {
   }
 
   public submitInitiative() {
+    if (!this.initiative.players.length) {
+      return;
+    }
     this.created.emit(this.initiative);
     this.resetInitiativeData();
   }

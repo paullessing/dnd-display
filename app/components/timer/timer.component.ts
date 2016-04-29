@@ -1,8 +1,50 @@
-import {Component, Input, OnChanges, SimpleChange} from "angular2/core";
+import {Component, Input, OnChanges, SimpleChange, OnInit} from "angular2/core";
+import {Observable} from "rxjs/Observable";
+
+export enum TimerEvent {
+  START,
+  STOP,
+  RESET
+}
 
 @Component({
   selector: 'timer',
   styles: [`
+:host.large {
+  text-align: center;
+  color: #363636;
+  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: 100;
+}
+
+:host.large .time {
+  font-size: 20vh;
+  margin-bottom: 0.2em;
+}
+:host.large progress {
+  width: 50vw;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+}
+
+:host.large progress::-webkit-progress-bar {
+  background-color: #ddd;
+  height: inherit;
+}
+
+:host.large progress::-webkit-progress-value {
+  background-color: #007;
+  border-radius: 2px;
+  height: inherit;
+}
+
+:host .urgent {
+  color: red;
+}
+:host .urgent progress::-webkit-progress-value {
+  background-color: red;
+}
 `],
   template: `
 <div [hidden]="!time" [class.urgent]="isOverTime">
@@ -11,7 +53,7 @@ import {Component, Input, OnChanges, SimpleChange} from "angular2/core";
 </div>
 `
 })
-export class TimerComponent implements OnChanges {
+export class TimerComponent implements OnChanges, OnInit {
   public time: string;
   public accurateSeconds: number;
   public isOverTime: boolean;
@@ -21,8 +63,9 @@ export class TimerComponent implements OnChanges {
   public seconds: number;
 
   @Input()
-  public isStarted: boolean;
+  public control: Observable<TimerEvent>
 
+  private isRunning: boolean;
   private startTime: number;
   private doStep: (timestamp: number) => void;
 
@@ -30,33 +73,52 @@ export class TimerComponent implements OnChanges {
     this.doStep = this.step.bind(this);
   }
 
+  ngOnInit() {
+    this.control.subscribe((event: TimerEvent) => {
+      switch (event) {
+        case TimerEvent.START:
+          this.toggle(true);
+          break;
+        case TimerEvent.STOP:
+          this.toggle(false);
+          break;
+        case TimerEvent.RESET:
+          this.reset();
+          break;
+      }
+    });
+  }
+
   ngOnChanges(changes: {[key: string]: SimpleChange}): void {
     if (changes['seconds']) {
-      this.time = this.toTime(this.seconds);
-      this.accurateSeconds = this.seconds;
-      this.isOverTime = false;
-      this.total = this.seconds;
-    }
-    if (changes['isStarted']) {
-      this.changeStarted();
+      this.reset();
     }
   }
 
-  private changeStarted(): void {
-    if (this.isStarted) {
-      console.log('Changing started');
-      window.requestAnimationFrame(this.doStep);
+  private reset(): void {
+    this.isRunning = false;
+    this.time = this.toTime(this.seconds);
+    this.accurateSeconds = this.seconds;
+    this.isOverTime = false;
+    this.total = this.seconds;
+  }
+
+  private toggle(run: boolean): void {
+    if (run) {
+      if (!this.isRunning) {
+        this.reset();
+        this.isRunning = true;
+        window.requestAnimationFrame(this.doStep);
+      }
     } else {
-      this.time = this.toTime(this.seconds);
-      this.startTime = null;
-      this.accurateSeconds = this.seconds;
-      this.total = this.seconds;
-      this.isOverTime = false;
+      if (this.isRunning) {
+        this.isRunning = false;
+      }
     }
   }
 
   private step(timestamp: number): void {
-    if (!this.isStarted) {
+    if (!this.isRunning) {
       return;
     }
     if (!this.startTime) {
@@ -69,15 +131,16 @@ export class TimerComponent implements OnChanges {
       this.isOverTime = true;
     }
     this.accurateSeconds = Math.min(this.seconds, Math.abs(newSeconds));
-    this.time = this.toTime(this.accurateSeconds);
+    this.time = this.toTime(this.accurateSeconds, newSeconds < 0);
     if (this.isOverTime && this.accurateSeconds >= this.seconds) {
-      this.isStarted = false;
+      this.isRunning = false;
     } else {
       window.requestAnimationFrame(this.doStep);
     }
   }
 
-  private toTime(time: number) {
+  private toTime(time: number, isNegative?: boolean) {
+    let prefix = isNegative ? '-' : '';
     let result;
     time = Math.floor(time);
     let seconds = time % 60;
@@ -85,14 +148,14 @@ export class TimerComponent implements OnChanges {
     time = Math.floor(time / 60);
     if (time === 0) {
       result = '00:' + result;
-      return result;
+      return prefix + result;
     }
     let minutes = time % 60;
     result = (minutes >= 10 ? minutes : '0' + minutes) + ':' + result;
     time = Math.floor(time / 60);
     if (time === 0) {
-      return result;
+      return prefix + result;
     }
-    return time + ':' + result;
+    return prefix + time + ':' + result;
   }
 }
