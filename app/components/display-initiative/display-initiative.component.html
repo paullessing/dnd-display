@@ -3,8 +3,14 @@
     <p class="currentPlayer__name">{{ currentPlayer.name }}</p>
     <timer class="large" [control]="timerControl" [seconds]="120"></timer>
   </div>
-  <div class="nextPlayer">
-    <p class="nextPlayer__label">Up Next</p>
-    <p class="nextPlayer__name">{{ nextPlayer.name }}</p>
+  <div class="footer">
+    <div class="roundNumber" *ngIf="currentRound">
+      <p class="roundNumber__label">Round</p>
+      <p class="roundNumber__value">{{ currentRound }}</p>
+    </div>
+    <div class="nextPlayer">
+      <p class="nextPlayer__label">Up Next</p>
+      <p class="nextPlayer__name">{{ nextPlayer.name }}</p>
+    </div>
   </div>
 </div>

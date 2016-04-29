@@ -44,8 +44,15 @@ timer {
   width: 70vw;
   display: block;
 }
-.nextPlayer {
+.footer {
   padding: 2vh 0;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.nextPlayer {
+  flex: 1 1 50%;
+  padding: 0 2vw;
   text-align: center;
   font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
@@ -57,11 +64,25 @@ timer {
 .nextPlayer__name {
   font-size: 12vh;
 }
+.roundNumber {
+  flex: 1 1 50%;
+  text-align: center;
+  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+.roundNumber__label {
+  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  font-size: 6vh;
+}
+.roundNumber__value {
+  font-size: 12vh;
+}
 `]
 })
 export class DisplayInitiativeComponent implements OnInit {
   public currentPlayer = null;
   public nextPlayer = null;
+  public currentRound = null;
   public timerControl: Subject<TimerEvent> = new Subject<TimerEvent>();
 
   constructor(
@@ -72,6 +93,7 @@ export class DisplayInitiativeComponent implements OnInit {
   ngOnInit(): void {
     this.initiativeService.initiative.subscribe((order: InitiativeOrder) => {
       this.updatePlayers(order);
+      this.currentRound = order.roundNumber || null;
     });
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
