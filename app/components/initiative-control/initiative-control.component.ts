@@ -16,8 +16,29 @@ import {Subject} from "rxjs/Subject";
   display: block;
   padding: 20px;
 }
-.initiative__player--active:after {
-  content: '<--'
+.currentTable {
+  margin-bottom: 1em;
+  min-width: 400px;
+  border: 1px solid #666;
+}
+.currentTable__placeholder {
+  color: #333;
+  font-style: italic;
+}
+.currentTable td,
+.currentTable th {
+  padding: 4px 8px;
+}
+.currentTable th {
+  font-weight: bold;
+  text-align: left;
+}
+.currentTable thead {
+border-bottom: 1px solid #666;
+}
+.currentTable tr.active {
+  font-weight: bold;
+  background-color: #ddd;
 }
 `
   ],
