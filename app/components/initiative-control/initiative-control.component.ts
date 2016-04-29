@@ -40,6 +40,10 @@ border-bottom: 1px solid #666;
   font-weight: bold;
   background-color: #ddd;
 }
+.toggle-active {
+  font-size: 0.8em;
+  color: #363636;
+}
 `
   ],
   templateUrl: 'app/components/initiative-control/initiative-control.component.html',
@@ -89,6 +93,10 @@ export class InitiativeControlComponent implements OnInit {
 
   public newInitiative(initiative: InitiativeOrder) {
     this.initiativeService.create(initiative);
+  }
+
+  public toggleActive(id: number) {
+    this.initiativeService.toggleActive(id);
   }
 
   private handleAction(action: string) {

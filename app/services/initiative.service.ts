@@ -8,6 +8,7 @@ import {ReplaySubject} from "rxjs/ReplaySubject";
 import {CHANNEL_NAME_INITIATIVE} from "../env-config";
 
 export const EVENT_NAME_CREATE: string = 'create';
+export const EVENT_NAME_UPDATE: string = 'update';
 export const EVENT_NAME_NEXT_PLAYER: string = 'next';
 export const EVENT_NAME_START_TIMER: string = 'timer-start';
 export const EVENT_NAME_STOP_TIMER:  string = 'timer-stop';
@@ -86,6 +87,18 @@ export class InitiativeService {
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_NEXT_PLAYER, newInitiative);
   }
 
+  public toggleActive(id: number) {
+    let newInitiative = Object.assign({}, this.currentInitiative);
+    newInitiative.players = this.currentInitiative.players.map(player => {
+      if (player.id !== id) {
+        return player;
+      } else {
+        return Object.assign({}, player, { isActive: !player.isActive });
+      }
+    });
+    this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_UPDATE, newInitiative);
+  }
+
   public startTimer() {
     this.socket.postAction(CHANNEL_NAME_INITIATIVE, EVENT_NAME_START_TIMER, this.currentInitiative);
   }
@@ -117,11 +130,10 @@ export class InitiativeService {
     } else {
       switch (action.name) {
         case EVENT_NAME_CREATE:
-              this.update(action.data);
-              this.actions.next(EVENT_NAME_CREATE);
+        case EVENT_NAME_UPDATE:
         case EVENT_NAME_NEXT_PLAYER:
               this.update(action.data);
-              this.actions.next(EVENT_NAME_NEXT_PLAYER);
+              this.actions.next(action.name);
               break;
         case EVENT_NAME_START_TIMER:
         case EVENT_NAME_STOP_TIMER:

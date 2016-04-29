@@ -17,7 +17,7 @@
         <td>{{ player.name }}{{ player.isNpc ? ' (NPC)' : '' }}</td>
         <td>{{ player.ac || '' }}{{ player.canModifyAc ? '*' : '' }}</td>
         <td>{{ player.initiative }}</td>
-        <td>{{ player.isActive ? 'Yes' : 'No' }}</td>
+        <td>{{ player.isActive ? 'Yes' : 'No' }} <a class="toggle-active" href="javascript:void(0)" (click)="toggleActive(player.id)">Toggle</a></td>
       </tr>
       </tbody>
     </table>
