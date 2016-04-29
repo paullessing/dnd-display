@@ -28,7 +28,7 @@
       <label for="ac" class="input__label">
         AC
       </label>
-      <input id="ac" class="input__element" type="number" step="1" [(ngModel)]="newPlayer.ac" />
+      <input id="ac" class="input__element" type="number" step="1" [(ngModel)]="newPlayer.ac" autocomplete="off" />
     </div>
     <div class="input input--check">
       <input id="variable" class="input__element" type="checkbox" [(ngModel)]="newPlayer.canModifyAc" />
@@ -41,7 +41,7 @@
   <div class="form__row">
     <div class="input input--number">
       <label for="initiative" class="input__label">Initiative</label>
-      <input id="initiative" class="input__element" type="number" step="1" [(ngModel)]="newPlayer.initiative" />
+      <input id="initiative" class="input__element" type="number" step="1" [(ngModel)]="newPlayer.initiative" autocomplete="off" />
     </div>
     <div class="input input--check">
       <input id="isActive" class="input__element" type="checkbox" [(ngModel)]="newPlayer.isActive" />
