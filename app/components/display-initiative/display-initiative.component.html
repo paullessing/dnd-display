@@ -1,7 +1,7 @@
 <div *ngIf="currentPlayer" class="wrapper">
   <div class="currentPlayer">
     <p class="currentPlayer__name">{{ currentPlayer.name }}</p>
-    <timer class="large countdown" [control]="timerControl" [seconds]="120"></timer>
+    <timer class="large countdown" [control]="timerControl" [seconds]="roundTime"></timer>
   </div>
   <div class="footer">
     <div class="footer__block footer__block--minor" *ngIf="currentRound">
@@ -14,7 +14,7 @@
     </div>
     <div class="footer__block footer__block--minor" *ngIf="startTime">
       <p class="footer__label">Combat Time</p>
-      <p class="footer__value"><timer [shortTime]="true" [inputTime]="combatTime"></timer></p>
+      <p class="footer__value"><time-since [startTime]="startTime"></time-since></p>
     </div>
   </div>
 </div>

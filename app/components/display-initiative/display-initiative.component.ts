@@ -7,11 +7,12 @@ import {InitiativeOrder, InitiativeEntry} from "../../entities/initiative";
 import {TimerComponent, TimerEvent} from "../timer/timer.component";
 import {NewInitiativeComponent} from "../new-initiative/new-initiative.component";
 import {Subject} from "rxjs/Subject";
+import {TimeSinceComponent} from "../time-since/time-since.component";
 
 @Component({
   selector: 'display-initiative',
   templateUrl: 'app/components/display-initiative/display-initiative.component.html',
-  directives: [TimerComponent, NewInitiativeComponent],
+  directives: [TimerComponent, NewInitiativeComponent, TimeSinceComponent],
   styles: [`
 :host {
   display: block;
@@ -76,7 +77,8 @@ export class DisplayInitiativeComponent implements OnInit {
   public nextPlayer = null;
   public currentRound = null;
   public timerControl: Subject<TimerEvent> = new Subject<TimerEvent>();
-  public combatTime: number;
+
+  public roundTime: number = 120;
 
   private startTime: string;
 
@@ -90,14 +92,10 @@ export class DisplayInitiativeComponent implements OnInit {
       this.updatePlayers(order);
       this.currentRound = order.roundNumber || null;
       this.startTime = order.startTime;
-      this.combatTime = this.getCombatTime();
     });
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
     });
-    setInterval(() => {
-      this.combatTime = this.getCombatTime();
-    }, 1000);
   }
 
   private updatePlayers(initiative: InitiativeOrder) {
@@ -125,16 +123,6 @@ export class DisplayInitiativeComponent implements OnInit {
       }
     } while (!isNext);
     this.nextPlayer = initiative.players[index];
-  }
-
-  private getCombatTime(): number {
-    if (this.startTime) {
-      let time = new Date(this.startTime).getTime();
-      let diff = (new Date().getTime() - time) / 1000;
-      return diff;
-    } else {
-      return 0;
-    }
   }
 
   private findIndex(players: InitiativeEntry[], id: number) {

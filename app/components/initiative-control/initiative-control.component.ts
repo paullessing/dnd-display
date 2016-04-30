@@ -7,6 +7,7 @@ import {InitiativeOrder} from "../../entities/initiative";
 import {TimerComponent, TimerEvent} from "../timer/timer.component";
 import {NewInitiativeComponent} from "../new-initiative/new-initiative.component";
 import {Subject} from "rxjs/Subject";
+import {TimeSinceComponent} from "../time-since/time-since.component";
 
 @Component({
   selector: 'initiative-control',
@@ -45,18 +46,16 @@ border-bottom: 1px solid #666;
   font-weight: normal;
   color: #363636;
 }
-.inline-timer {
-  display: inline-block;
-}
 `
   ],
   templateUrl: 'app/components/initiative-control/initiative-control.component.html',
-  directives: [TimerComponent, NewInitiativeComponent]
+  directives: [TimerComponent, NewInitiativeComponent, TimeSinceComponent]
 })
 export class InitiativeControlComponent implements OnInit {
   public initiativeOrder: InitiativeOrder;
   public timerControl: Subject<TimerEvent> = new Subject<TimerEvent>();
-  public combatTime: number;
+
+  public roundTime: number = 120;
 
   constructor(
     private initiativeService: InitiativeService
@@ -70,10 +69,6 @@ export class InitiativeControlComponent implements OnInit {
     this.initiativeService.actions.subscribe((action: string) => {
       this.handleAction(action);
     });
-    // TODO FIXME
-    setInterval(() => {
-      this.combatTime = this.getCombatTime();
-    }, 1000);
   }
 
   public clear(): void {
