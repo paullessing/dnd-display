@@ -32,7 +32,9 @@
     >Undo</button>
   </div>
   <div>
-    <timer [control]="timerControl" [seconds]="roundTime"></timer><br />
+    <div style="width: 100%; max-width: 300px">
+      <timer [control]="timerControl" [seconds]="roundTime"></timer><br />
+    </div>
     <button class="button" (click)="startTimer()">Start</button>
     <button class="button" (click)="stopTimer()">Stop</button>
     <button class="button" (click)="resetTimer()">Reset</button>

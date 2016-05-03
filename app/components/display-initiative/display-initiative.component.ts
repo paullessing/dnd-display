@@ -13,64 +13,6 @@ import {TimeSinceComponent} from "../time-since/time-since.component";
   selector: 'display-initiative',
   templateUrl: 'app/components/display-initiative/display-initiative.component.html',
   directives: [TimerComponent, NewInitiativeComponent, TimeSinceComponent],
-  styles: [`
-:host {
-  display: block;
-  height: 100%;
-  background-color: #eee;
-}
-.wrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  color: #363636;
-  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-weight: 100;
-}
-.currentPlayer {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.currentPlayer__name {
-  font-size: 26vh;
-  text-align: center;
-}
-timer.countdown {
-  margin-bottom: 4vh;
-  width: 70vw;
-  display: block;
-}
-.footer {
-  padding: 2vh 0;
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-.footer__block {
-  flex: 1 1 33.3%;
-  padding: 0 2vw;
-  text-align: center;
-  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-}
-.footer__label {
-  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-weight: 100;
-  font-size: 6vh;
-}
-.footer__value {
-  font-size: 12vh;
-  line-height: 12vh;
-}
-.footer__block--minor .footer__value {
-  font-size: 9vh;
-  vertical-align: bottom;
-}
-`]
 })
 export class DisplayInitiativeComponent implements OnInit {
   public currentPlayer = null;
@@ -78,7 +20,7 @@ export class DisplayInitiativeComponent implements OnInit {
   public currentRound = null;
   public timerControl: Subject<TimerEvent> = new Subject<TimerEvent>();
 
-  public roundTime: number = 120;
+  public roundTime: number = 10;
 
   private startTime: string;
 

@@ -1,7 +1,7 @@
-<div *ngIf="currentPlayer" class="wrapper">
-  <div class="currentPlayer">
-    <p class="currentPlayer__name">{{ currentPlayer.name }}</p>
-    <timer class="large countdown" [control]="timerControl" [seconds]="roundTime"></timer>
+<div *ngIf="currentPlayer" class="display-initiative">
+  <div class="display-current-player">
+    <p class="display-current-player__name">{{ currentPlayer.name }}</p>
+    <timer class="display-current-player__timer large" large [control]="timerControl" [seconds]="roundTime"></timer>
   </div>
   <div class="footer">
     <div class="footer__block footer__block--minor" *ngIf="currentRound">

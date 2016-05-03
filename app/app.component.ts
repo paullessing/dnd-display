@@ -20,8 +20,8 @@ import {DisplayInitiativeComponent} from "./components/display-initiative/displa
   ]
 })
 @RouteConfig([
+  {path: '/',        name: 'Display', component: DisplayInitiativeComponent, useAsDefault: true},
   {path: '/control', name: 'Control', component: InitiativeControlComponent},
-  {path: '/show',    name: 'Display', component: DisplayInitiativeComponent, useAsDefault: true},
 ])
 export class AppComponent {
   constructor(

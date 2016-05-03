@@ -9,47 +9,18 @@ export enum TimerEvent {
 
 @Component({
   selector: 'timer',
-  styles: [`
-:host.large {
-  text-align: center;
-  color: #363636;
-  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-weight: 100;
-}
-
-:host.large .time {
-  font-size: 20vh;
-  margin-bottom: 0.2em;
-}
-:host.large progress {
-  width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-}
-
-:host.large progress::-webkit-progress-bar {
-  background-color: #ddd;
-  height: inherit;
-}
-
-:host.large progress::-webkit-progress-value {
-  background-color: #007;
-  border-radius: 2px;
-  height: inherit;
-}
-
-:host .urgent {
-  color: red;
-}
-:host .urgent progress::-webkit-progress-value {
-  background-color: red;
-}
-`],
   template: `
-<div [hidden]="!time" [class.urgent]="isOverTime">
-  <div class="time">{{ time }}</div>
-  <progress [max]="seconds" [value]="accurateSeconds"></progress>
+<div [hidden]="!time"
+  class="timer"
+  [class.timer--urgent]="isOverTime"
+  [class.timer--large]="isLarge"
+>
+  <div class="timer__time">{{ time }}</div>
+  <progress
+    class="timer__progress"
+    [max]="seconds"
+    [value]="accurateSeconds"
+  ></progress>
 </div>
 `
 })
@@ -63,7 +34,11 @@ export class TimerComponent implements OnChanges, OnInit {
   public seconds: number;
 
   @Input()
-  public control: Observable<TimerEvent>
+  public control: Observable<TimerEvent>;
+
+  @Input()
+  public large: any;
+  public isLarge: boolean;
 
   private isRunning: boolean;
   private startTime: number;
@@ -74,6 +49,7 @@ export class TimerComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    this.setIsLarge();
     this.control.subscribe((event: TimerEvent) => {
       switch (event) {
         case TimerEvent.START:
@@ -92,6 +68,19 @@ export class TimerComponent implements OnChanges, OnInit {
   ngOnChanges(changes: {[key: string]: SimpleChange}): void {
     if (changes['seconds']) {
       this.reset();
+    }
+    if (changes['large']) {
+      this.setIsLarge();
+    }
+  }
+
+  private setIsLarge(){
+    if (typeof this.large === 'undefined') {
+      this.isLarge = false;
+    } else if (typeof this.large === 'boolean') {
+      this.isLarge = !!this.large;
+    } else {
+      this.isLarge = true;
     }
   }
 
