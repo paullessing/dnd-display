@@ -1,0 +1,28 @@
+.button {
+  display: inline-block;
+  background: #ddd;
+  border: 0;
+  border-radius: 2px;
+  outline: 0;
+  height: 40px;
+  min-width: 100px;
+  padding: 0 30px;
+  font-size: 14px;
+  font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+  text-transform: uppercase;
+
+  &:active {
+    box-shadow: none;
+    position: relative;
+    top: 2px;
+  }
+
+  &--flat {
+    background-color: #f6f6f6;
+    box-shadow: none;
+    &:active {
+      box-shadow: inset 0 2px 2px 0 rgba(0,0,0,0.2);
+    }
+  }
+}

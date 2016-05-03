@@ -46,7 +46,7 @@ module.exports = function(grunt) {
     run: {
       sass: {
         cmd: 'sass',
-        args: ['style/main.scss', 'dist/style/main.css']
+        args: ['style/style.scss', 'dist/style/style.css']
       },
       tswait: {
         cmd: 'tsc',

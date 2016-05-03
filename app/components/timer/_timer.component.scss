@@ -1,0 +1,47 @@
+
+
+.timer {
+  color: #363636;
+
+  &--large {
+    text-align: center;
+    font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-weight: 100;
+  }
+  &--urgent {
+    color: red;
+  }
+
+  &__time {
+    .timer--large & {
+      font-size: 20vh;
+      margin-bottom: 0.2em;
+    }
+  }
+
+  &__progress {
+    width: 100%;
+    .timer--large & {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+    }
+    &::-webkit-progress-bar {
+      .timer--large & {
+        background-color: #ddd;
+        height: inherit;
+      }
+    }
+    &::-webkit-progress-value {
+      background-color: #007;
+
+      .timer--large & {
+        border-radius: 2px;
+        height: inherit;
+      }
+      .timer--urgent & {
+        background-color: red;
+      }
+    }
+  }
+}
