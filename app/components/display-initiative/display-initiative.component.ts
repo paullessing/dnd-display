@@ -20,7 +20,7 @@ export class DisplayInitiativeComponent implements OnInit {
   public currentRound = null;
   public timerControl: Subject<TimerEvent> = new Subject<TimerEvent>();
 
-  public roundTime: number = 10;
+  public roundTime: number = 120;
 
   private startTime: string;
 
